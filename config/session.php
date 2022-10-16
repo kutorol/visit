@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
@@ -33,7 +35,7 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
-    'expire_on_close' => false,
+    'expire_on_close' => FALSE,
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +48,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => FALSE,
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +183,7 @@ return [
     |
     */
 
-    'http_only' => true,
+    'http_only' => TRUE,
 
     /*
     |--------------------------------------------------------------------------

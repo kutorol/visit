@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
@@ -39,14 +41,14 @@ return [
 
         'array' => [
             'driver' => 'array',
-            'serialize' => false,
+            'serialize' => FALSE,
         ],
 
         'database' => [
             'driver' => 'database',
             'table' => 'cache',
-            'connection' => null,
-            'lock_connection' => null,
+            'connection' => NULL,
+            'lock_connection' => NULL,
         ],
 
         'file' => [

@@ -13,4 +13,4 @@ import './bootstrap';
  */
 
 import './components/Example';
-import './User';
+import './components/Example2';
