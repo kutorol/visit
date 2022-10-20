@@ -74,9 +74,3 @@ fix-ide-helper:
 
 migrate:
 	$(COMPOSE) run --rm -u $(CURRENT_UID) --entrypoint bash app -c "php artisan migrate"
-
-
-ppp:
-	#$(COMPOSE) run --rm -u $(CURRENT_UID)
-	#docker exec -it --rm app sh
-	$(COMPOSE) run --rm -u $(CURRENT_UID) --entrypoint bash app -c "php artisan ide-helper:generate"
