@@ -10,14 +10,19 @@
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <script>
+        const App = {
+            User: {
+                {{--name: `{{ auth()->name }}`--}}
+            }
+        }
+    </script>
     <!-- Styles -->
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <!-- React root DOM -->
-    <div id="example"></div>
-    <div id="user"></div>
-sdg
+    <div id="app"></div>
 </body>
 </html>

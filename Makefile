@@ -21,9 +21,12 @@ up2:
 	cd ../admin-2.0 && make down
 	cd ../traefik.com && make down
 	make up
+	docker run -v jiraVolume:/var/atlassian/application-data/jira --name="jira" -d -p 8080:8080 atlassian/jira-software
+	@echo "http://localhost:8080"
 
 down2:
 	make down
+	docker stop jira && docker rm jira
 	cd ../traefik.com && make up-mac
 	cd ../l.com && make up
 	cd ../goods && make first
