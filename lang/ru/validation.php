@@ -15,6 +15,7 @@ return [
     |
     */
 
+    'route_not_found' => 'Такого url не существует',
     'failed_validation' => 'Ошибка входящих данных',
 
     'accepted'             => 'Вы должны принять :attribute.',

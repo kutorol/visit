@@ -1,4 +1,4 @@
-FROM composer:latest AS composer
+FROM composer:2.4.3 AS composer
 FROM php:8.1.0-fpm
 
 ARG APCU_VERSION=5.1.18

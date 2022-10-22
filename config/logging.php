@@ -65,6 +65,24 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'oauth2' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/'.date('Y').'/'.date('m').'/'.date('d').'/oauth2.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'access_token' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/'.date('Y').'/'.date('m').'/'.date('d').'/access_token.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'routes' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/'.date('Y').'/'.date('m').'/'.date('d').'/routes.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

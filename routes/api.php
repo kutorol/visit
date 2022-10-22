@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ForgotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+/* ======= Регистрация ========= */
+Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
-//Route::middleware('auth:api')->get( '/pro', [ProductController::class, 'index']);
+Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
+});
+
+Route::prefix('/password')->group(function () {
+    // отправляем ссылку на восстановление пароля
+    Route::post('forgot-password', [ForgotController::class, 'forgot'])->name('api.pass_forgot');
+    // восстанавливаем пароль по ссылке
+    Route::post('reset/{token}', [ForgotController::class, 'reset'])->name('api.pass_reset');
+});
+
+/* ======= Конец регистрация ========= */

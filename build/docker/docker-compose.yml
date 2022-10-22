@@ -19,6 +19,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./../../:/var/www
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
   db:
     container_name: db-${COMPOSE_PROJECT_NAME}
     image: postgres:14.5
@@ -38,6 +39,7 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - app
     volumes:

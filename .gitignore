@@ -18,3 +18,5 @@ yarn-error.log
 _ide_helper.php
 /db_data
 /go
+cert.pem
+key.pem

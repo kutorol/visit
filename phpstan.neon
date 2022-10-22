@@ -14,27 +14,15 @@ parameters:
         - '#Cannot assign offset [0-9]+ to Google\\Protobuf\\Internal\\MapField#'
         - '#Grpc\\ChannelCredentials::createSsl\(\) invoked with 0 parameters, 1-3 required.#'
         - '#data of method Grpc\\ClientStreamingCall::write\(\) expects Grpc\\ByteBuffer#'
-        - '#Orchid\\Screen\\LayoutFactory::modal\(\) expects array<string>\|string#'
-        - '#::layout\(\) should return array<Orchid\\Screen\\Layout> but returns#'
-        - '#::fields\(\) should return array<Orchid\\Screen\\Field> but returns#'
-        - '#::filters\(\) should return array<Orchid\\Filters\\Filter> but returns#'
         - '#Parameter .* Google\\Protobuf\\Internal\\MapField constructor expects.*given#'
         - '#Parameter .* Google\\Protobuf\\Internal\\MapField::offsetSet\(\) expects.*given#'
-        - '#Call to an undefined method Orchid\\Screen\\Cell#'
-        - '#::columns\(\) should return array<Orchid\\Screen\\TD> but returns#'
-        - '#Call to an undefined method Orchid\\Screen\\Field::confirm\(\)#'
-        - '#Call to an undefined method Orchid\\Screen\\Layout::applyButton\(\)#'
         - '#key of method Google\\Protobuf\\Internal\\MapField::offsetExists\(\) expects object#'
         - '#Offset .* does not exist on Google\\Protobuf\\Internal\\MapField#'
-        - '#Array \(array<Orchid\\Screen\\Layout>\) does not accept array<Orchid\\Screen\\Layout>#'
         - '#Using nullsafe method call on non-nullable type .* Use -> instead\.#'
         - '#Call to an undefined method Illuminate\\Http\\Request::validated\(\)#'
-        - '#Call to an undefined method Orchid\\Screen\\Layout::title#'
         - '#Call to function property_exists\(\) with \*NEVER\* and .* will always evaluate to false#'
 
     excludePaths:
-        - ./*/*/FileToBeExcluded.php
-        - ./app/Orchid/Layouts/PrivateMessages/PaginationLayout.php
-        - ./app/Orchid/Layouts/BulkMailing/ReportLayout.php
+        - ./vendor
 
-    checkMissingIterableValueType: false
+    checkMissingIterableValueType: true

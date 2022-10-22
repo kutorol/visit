@@ -15,14 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/app/{path?}', function () {
-    return view('welcome');
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// todo Переопределить пути, чтобы их отправить на view('app') и отловить в reactJS
+// Оставляем пути, чтобы отправка ссылки на восстановление пароля работала
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::fallback(function () {
+    return view('app');
+});
