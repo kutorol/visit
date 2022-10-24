@@ -126,6 +126,10 @@ class Handler extends ExceptionHandler
     private function authExtended(array $response, AuthenticationException $e): array
     {
         $response['msg'] = __('auth.you_in_forbidden_zone');
+        // перенаправляем из запрещенной зоны в зону входа
+        $response['data'] = array_merge($response['data'], [
+            BaseController::REDIRECT_PARAM => 'login',
+        ]);
 
         return $response;
     }
