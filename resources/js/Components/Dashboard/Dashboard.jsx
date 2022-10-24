@@ -1,5 +1,5 @@
 import React from "react";
-import user from "../auth/user";
+import user from "../Auth/user";
 import {Container, Grid, Typography} from "@mui/material";
 
 function Dashboard() {
