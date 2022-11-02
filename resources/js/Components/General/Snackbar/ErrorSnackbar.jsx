@@ -1,29 +1,26 @@
-import {useDispatch, useSelector} from "react-redux";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import {useSelector} from "react-redux";
 import {clear} from "../../../reducers/snackbar/error-snackbar";
+import Snackbar from "./Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import React from "react";
 
 const ErrorSnackbar = () => {
     const errorsObj = useSelector(state => state.errSnackbar)
 
     const isOpen = Array.isArray(errorsObj.errors)
     const autoHideMs = errorsObj.duration || 5000
-    const muiAlert = {elevation: 6, variant: "filled", severity: "error"}
-    console.log(isOpen, autoHideMs, errorsObj)
-
-    const dispatch = useDispatch()
-    const onClose = () => dispatch(clear())
+    const elevation = 6;
 
     return (
         <Snackbar
-            open={isOpen}
-            autoHideDuration={autoHideMs}
-            onClose={onClose}
+            isOpen={isOpen}
+            autoHideMs={autoHideMs}
+            onClose={clear}
         >
             <MuiAlert
-                elevation={muiAlert.elevation}
-                variant={muiAlert.variant}
-                severity={muiAlert.severity}
+                elevation={elevation}
+                variant="filled"
+                severity="error"
             >
                 <div>
                     <div>Ошибка</div>
