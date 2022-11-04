@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "visit/visit",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Book of visit gym",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
@@ -14,7 +14,7 @@
         "laravel/ui": "^4.0",
         "predis/predis": "^2.0",
         "ext-pdo": "*",
-      "ext-curl": "*"
+        "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",

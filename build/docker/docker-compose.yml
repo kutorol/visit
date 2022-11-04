@@ -1,49 +1,115 @@
 version: '3'
 
-services:
-  redis:
-    image: redis:7.0.5
-    command: ["redis-server", "--appendonly", "yes"]
-    ports:
-      - 53423:6379
+volumes:
+  visit_db:
 
-  app:
+services:
+  # не очень работает. Не дает билдить и т.д.
+  node:
     build:
-      context: .
-      dockerfile: php-fpm/Dockerfile
-    container_name: app
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node-${COMPOSE_PROJECT_NAME}
+    command: ["npm", "ci", "--only=production"]
+    stdin_open: true
     tty: true
+    restart: unless-stopped
+    volumes:
+      - ./../../:/var/www
+    networks:
+      - visit-network
+
+  composer:
+    build:
+      context: ./composer
+      dockerfile: Dockerfile.prod
+    container_name: composer-${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ./../../:/var/www
+    restart: unless-stopped
+    networks:
+      - visit-network
+
+  # сервис с redis
+  redis:
+    image: redis:7.0.5-alpine
+    container_name: redis-${COMPOSE_PROJECT_NAME}
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
+    networks:
+      - visit-network
+
+  # сервис с php
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    command: php-fpm
+    container_name: php-${COMPOSE_PROJECT_NAME}
     depends_on:
-      - db
+      - postgresql
       - redis
-    working_dir: /var/www
     volumes:
       - ./../../:/var/www
       - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
-  db:
-    container_name: db-${COMPOSE_PROJECT_NAME}
-    image: postgres:14.5
-    restart: always
     environment:
-      POSTGRES_PASSWORD: ${COMPOSE_PROJECT_NAME}
-      POSTGRES_DB: ${COMPOSE_PROJECT_NAME}
-      POSTGRES_USER: ${COMPOSE_PROJECT_NAME}
-    volumes:
-      - /Users/klayn/Sites/visit.com/db_data:/var/lib/postgresql/data
-    ports:
-      - 15432:5432
+      - CACHE_DRIVER=redis
+      - APP_NAME=${COMPOSE_PROJECT_NAME}
+      - APP_DEBUG=false
+      - APP_ENV=production
+      - DB_HOST=postgresql-${COMPOSE_PROJECT_NAME}
+      - DB_PORT=5432
+      - DB_CONNECTION=pgsql
+      - DB_DATABASE=${COMPOSE_PROJECT_NAME}
+      - DB_USERNAME=${COMPOSE_PROJECT_NAME}
+      - DB_PASSWORD=${COMPOSE_PROJECT_NAME}
+      - REDIS_HOST=redis-${COMPOSE_PROJECT_NAME}
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+      - APP_URL=${APP_URL_HTTPS}
+    # Если контейнер упал (поломался), то docker попытается его заново поднять
+    # По дефолту - никогда не рестартятся
+    # always - всегда будут рестартиться
+    restart: unless-stopped
+    networks:
+      - visit-network
 
-  http:
-    image: nginx:alpine
-    container_name: http-${COMPOSE_PROJECT_NAME}
-    restart: always
+  # сервис с базой данных
+  postgresql:
+    image: postgres:14.5
+    container_name: postgresql-${COMPOSE_PROJECT_NAME}
+    environment:
+      - POSTGRES_PASSWORD=${COMPOSE_PROJECT_NAME}
+      - POSTGRES_DB=${COMPOSE_PROJECT_NAME}
+      - POSTGRES_USER=${COMPOSE_PROJECT_NAME}
+    volumes:
+      - visit_db:/var/lib/postgresql/data
+    # Если контейнер упал (поломался), то docker попытается его заново поднять
+    # По дефолту - никогда не рестартятся
+    # always - всегда будут рестартиться
+    restart: unless-stopped
+    networks:
+      - visit-network
+
+  nginx:
+    image: nginx:1.23.2-alpine
+    container_name: nginx-${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - APP_URL=${APP_URL}
     depends_on:
-      - app
+      - php
     volumes:
       - ./../../:/var/www
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    links:
-      - app
+      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - visit-network
+#    links:
+#      - php
+
+networks:
+  visit-network:
+    driver: bridge

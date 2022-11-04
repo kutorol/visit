@@ -1,6 +1,8 @@
 FROM composer:2.4.3 AS composer
 FROM php:8.1.0-fpm
 
+WORKDIR /var/www
+
 ARG APCU_VERSION=5.1.18
 
 # Get frequently used tools
@@ -52,31 +54,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# php-cs-fixer tool
-# RUN wget https://cs.symfony.com/download/php-cs-fixer-v2.phar -O /usr/local/bin/php-cs-fixer
-# RUN chmod +x /usr/local/bin/php-cs-fixer
-
-
-# Install oh-my-zsh
-# RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-
-# Copy powerlevel10k zsh theme
-# RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-# Change the default theme, so to differentiate in case you use the default theme on your host
-# RUN sed -i 's:robbyrussell:powerlevel10k/powerlevel10k:g' ~/.zshrc
-
-# Use minimalist-ish powerlevel10k configuration, run "p10k configure" to go through wizard
-#COPY docker/.p10k.zsh /root/
-
-# When running zsh, activate the p10k
-#RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> ~/.zshrc
-
-# Copy existing app directory
-COPY ./../../ /var/www
-WORKDIR /var/www
-
-
 # Configure non-root user.
 ARG PUID=1000
 ENV PUID ${PUID}
@@ -87,21 +64,3 @@ RUN groupmod -o -g ${PGID} www-data && \
     usermod -o -u ${PUID} -g www-data www-data
 
 RUN chown -R www-data:www-data /var/www
-
-# Install composer
-#RUN curl -sS https://getcomposer.org/installer | php -- \
-#        --filename=composer \
-#        --install-dir=/usr/local/bin && \
-#        echo "alias composer='composer'" >> /root/.bashrc && \
-#        composer \
-
-# Copy and run composer
-#COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-#RUN composer install --no-interaction
-
-# For Laravel Installations
-#RUN php artisan key:generate
-
-EXPOSE 8080
-
-CMD ["php-fpm"]
