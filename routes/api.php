@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\User\GateUserController;
+use App\Http\Controllers\Api\User\InfoUserController;
 use App\Http\Controllers\Api\User\ListController;
 use App\Http\Controllers\Api\User\ManageUserController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +46,16 @@ Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function () 
 
 /* ========== Конец списка юзеров ========== */
 
-Route::middleware(['auth:api', 'editor'])->prefix('/user')->group(function () {
-    Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
-    Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
+Route::middleware(['auth:api'])->prefix('/user')->group(function () {
+    Route::middleware('editor')->group(function (){
+        Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
+        Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
+    });
+
+    Route::middleware('manager')->group(function (){
+        // only user info
+        Route::get('/{id}', [InfoUserController::class, 'info'])->name('api.info_users');
+        // user info with actions
+        Route::get('/{id}/full', [GateUserController::class, 'info'])->name('api.full_info_users');
+    });
 });
