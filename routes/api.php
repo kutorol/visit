@@ -37,14 +37,14 @@ Route::prefix('/password')->group(function () {
 /* ======= Конец регистрация ========= */
 
 /* ========== Список юзеров ========== */
-Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function (){
-    Route::get("", [ListController::class, 'find'])->name("api.list_users");
-    Route::get("/search", [ListController::class, 'search'])->name("api.search_list_users");
+Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function () {
+    Route::get('', [ListController::class, 'find'])->name('api.list_users');
+    Route::get('/search', [ListController::class, 'search'])->name('api.search_list_users');
 });
 
 /* ========== Конец списка юзеров ========== */
 
-Route::middleware(['auth:api', 'editor'])->prefix('/user')->group(function (){
-    Route::post("", [ManageUserController::class, 'create'])->name("api.create_user");
-    Route::delete("", [ManageUserController::class, 'delete'])->name("api.delete_user");
+Route::middleware(['auth:api', 'editor'])->prefix('/user')->group(function () {
+    Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
+    Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
 });

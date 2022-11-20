@@ -11,7 +11,7 @@ class DeleteUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer|min:1'
+            'id' => 'required|integer|min:1',
         ];
     }
 }

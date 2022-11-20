@@ -1,13 +1,18 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\DTO;
 
 class SearchUserDTO
 {
-    private ?array $ids = null;
-    private ?string $name = null;
-    private ?string $email = null;
-    private ?array $roles = null;
+    private ?array $ids = NULL;
+
+    private ?string $name = NULL;
+
+    private ?string $email = NULL;
+
+    private ?array $roles = NULL;
 
     public function getIds(): ?array
     {
@@ -16,7 +21,8 @@ class SearchUserDTO
 
     public function setIds(?array $ids): self
     {
-        $this->ids = empty($ids) ? null : $ids;
+        $this->ids = empty($ids) ? NULL : $ids;
+
         return $this;
     }
 
@@ -27,7 +33,8 @@ class SearchUserDTO
 
     public function setName(?string $name): self
     {
-        $this->name = $name ?: null;
+        $this->name = $name ?: NULL;
+
         return $this;
     }
 
@@ -38,7 +45,8 @@ class SearchUserDTO
 
     public function setEmail(?string $email): self
     {
-        $this->email = $email ?: null;
+        $this->email = $email ?: NULL;
+
         return $this;
     }
 
@@ -49,7 +57,8 @@ class SearchUserDTO
 
     public function setRoles(?array $roles): self
     {
-        $this->roles = empty($roles) ? null : $roles;
+        $this->roles = empty($roles) ? NULL : $roles;
+
         return $this;
     }
 }

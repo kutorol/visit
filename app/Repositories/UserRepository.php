@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\DTO\SearchUserDTO;
@@ -13,20 +15,20 @@ class UserRepository
 {
     private const PER_PAGE = 50;
 
-    public function find(bool $withDeleted = false, ?SearchUserDTO $search = null): LengthAwarePaginator
+    public function find(bool $withDeleted = FALSE, ?SearchUserDTO $search = NULL): LengthAwarePaginator
     {
         $handle = $withDeleted ? User::withTrashed() : User::withoutTrashed();
 
         if (!empty($search?->getIds())) {
-            $handle->whereIn("id", $search->getIds());
+            $handle->whereIn('id', $search->getIds());
         }
 
         if ($search?->getName()) {
-            $handle->where("name", 'LIKE', '%'.$search->getName().'%');
+            $handle->where('name', 'LIKE', '%'.$search->getName().'%');
         }
 
         if ($search?->getEmail()) {
-            $handle->where("email", 'LIKE', '%'.$search->getEmail().'%');
+            $handle->where('email', 'LIKE', '%'.$search->getEmail().'%');
         }
 
         return $handle->select(['id', 'name', 'email', 'email_verified_at', 'created_at', 'deleted_at'])
@@ -48,13 +50,13 @@ class UserRepository
 
         return [
             'ID' => $user->id,
-            BaseController::TOKEN_PARAM => $token
+            BaseController::TOKEN_PARAM => $token,
         ];
     }
 
     public function findByID(int $id): ?User
     {
-        return User::firstWhere("id", "=", $id);
+        return User::firstWhere('id', '=', $id);
     }
 
     public function delete(User $user): bool

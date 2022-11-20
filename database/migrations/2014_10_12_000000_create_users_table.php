@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('password');
             $table->enum('role', User::roles())
                 ->default(User::ROLE_USER)
-                ->index("role_idx");
+                ->index('role_idx');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Api\BaseController;
@@ -32,11 +34,11 @@ class IsAdmin
     public static function getResponse(Request $request)
     {
         if (!$request->wantsJson() && !$request->is('api/*')) {
-            return redirect("/");
+            return redirect('/');
         }
 
         return response()->json(
-            BaseController::errorResponse(__("general.bad_role"), [], BaseController::FORBIDDEN_CODE),
+            BaseController::errorResponse(__('general.bad_role'), [], BaseController::FORBIDDEN_CODE),
             BaseController::FORBIDDEN_CODE
         );
     }

@@ -44,15 +44,20 @@ use Laravel\Passport\Passport;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read int|null $clients_count
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    public const ROLE_ADMIN = "admin";
-    public const ROLE_EDITOR = "editor";
-    public const ROLE_MANAGER = "manager";
-    public const ROLE_USER = "user";
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_EDITOR = 'editor';
+    public const ROLE_MANAGER = 'manager';
+    public const ROLE_USER = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -95,15 +100,18 @@ class User extends Authenticatable
         ];
     }
 
-    public static function isAdmin(): bool {
-        return \Auth::user()?->role === self::ROLE_ADMIN;
+    public static function isAdmin(): bool
+    {
+        return (\Auth::user()?->role ?? '') === self::ROLE_ADMIN;
     }
 
-    public static function isEditor(): bool {
-        return in_array(\Auth::user()?->role, [self::ROLE_ADMIN, self::ROLE_EDITOR]);
+    public static function isEditor(): bool
+    {
+        return in_array(\Auth::user()?->role ?? '', [self::ROLE_ADMIN, self::ROLE_EDITOR]);
     }
 
-    public static function isManager(): bool {
-        return in_array(\Auth::user()?->role, [self::ROLE_ADMIN, self::ROLE_EDITOR, self::ROLE_MANAGER]);
+    public static function isManager(): bool
+    {
+        return in_array(\Auth::user()?->role ?? '', [self::ROLE_ADMIN, self::ROLE_EDITOR, self::ROLE_MANAGER]);
     }
 }

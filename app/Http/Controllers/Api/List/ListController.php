@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\List;
 
 use App\DTO\SearchUserDTO;
@@ -18,26 +20,26 @@ class ListController extends BaseController
     }
 
     /**
-     * Получаем список всех юзеров (без админов)
+     * Получаем список всех юзеров (без админов).
      * @param SearchUserRequest $request
      * @return JsonResponse
      */
     public function find(SearchUserRequest $request): JsonResponse
     {
-        $dto = null;
+        $dto = NULL;
 
         $validated = $request->validated();
         if (!empty($validated)) {
             $dto = (new SearchUserDTO())
-                ->setIds($validated['ids'] ?? null)
-                ->setName($validated['name'] ?? null)
-                ->setEmail($validated['email'] ?? null)
-                ->setRoles($validated['roles'] ?? null);
+                ->setIds($validated['ids'] ?? NULL)
+                ->setName($validated['name'] ?? NULL)
+                ->setEmail($validated['email'] ?? NULL)
+                ->setRoles($validated['roles'] ?? NULL);
         }
 
-        $users = $this->repository->find((bool)($validated['withDeleted'] ?? false), $dto);
+        $users = $this->repository->find((bool)($validated['withDeleted'] ?? FALSE), $dto);
 
-        return $this->sendResponse("", [
+        return $this->sendResponse('', [
             'total' => $users->total(),
             'currentPage' => $users->currentPage(),
             'lastPage' => $users->lastPage(),
