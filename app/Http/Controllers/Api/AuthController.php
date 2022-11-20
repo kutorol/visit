@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ class AuthController extends BaseController
     {
         $input = $request->validated();
         $input['password'] = bcrypt($input['password']);
-        $input['role'] = 'user';
+        $input['role'] = User::ROLE_USER;
         $user = User::create($input);
 
         $data = $this->prepareToken($user);

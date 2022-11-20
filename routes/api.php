@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\Info\ManageUserController;
 use App\Http\Controllers\Api\List\ListController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,8 +37,12 @@ Route::prefix('/password')->group(function () {
 /* ======= Конец регистрация ========= */
 
 /* ========== Список юзеров ========== */
-Route::middleware(['auth:api', 'manager'])->prefix('/list')->group(function (){
-    Route::get("/users", [ListController::class, 'find'])->name("api.list_users");
+Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function (){
+    Route::get("", [ListController::class, 'find'])->name("api.list_users");
 });
 
 /* ========== Конец списка юзеров ========== */
+
+Route::middleware(['auth:api', 'editor'])->prefix('/user')->group(function (){
+    Route::post("", [ManageUserController::class, 'create'])->name("api.create_user");
+});

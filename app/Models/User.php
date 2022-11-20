@@ -83,4 +83,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function roles(): array
+    {
+        return [
+            self::ROLE_ADMIN,
+            self::ROLE_EDITOR,
+            self::ROLE_MANAGER,
+            self::ROLE_USER,
+        ];
+    }
 }
