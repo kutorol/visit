@@ -1,11 +1,11 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Http\Controllers\Api\Info;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\User\DeleteUserRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;

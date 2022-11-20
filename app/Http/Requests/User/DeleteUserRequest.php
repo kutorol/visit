@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,5 +14,4 @@ class DeleteUserRequest extends FormRequest
             'id' => 'required|integer|min:1'
         ];
     }
-
 }

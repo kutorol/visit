@@ -1,7 +1,8 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Repositories;
 
+use App\DTO\SearchUserDTO;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\User;
@@ -10,12 +11,26 @@ use InvalidArgumentException;
 
 class UserRepository
 {
-    private const PER_PAGE = 1;
+    private const PER_PAGE = 50;
 
-    public function find(): LengthAwarePaginator
+    public function find(bool $withDeleted = false, ?SearchUserDTO $search = null): LengthAwarePaginator
     {
-        return User::select(['id', 'name', 'email', 'email_verified_at', 'created_at'])
-            ->where('role', '=', 'user')
+        $handle = $withDeleted ? User::withTrashed() : User::withoutTrashed();
+
+        if (!empty($search?->getIds())) {
+            $handle->whereIn("id", $search->getIds());
+        }
+
+        if ($search?->getName()) {
+            $handle->where("name", 'LIKE', '%'.$search->getName().'%');
+        }
+
+        if ($search?->getEmail()) {
+            $handle->where("email", 'LIKE', '%'.$search->getEmail().'%');
+        }
+
+        return $handle->select(['id', 'name', 'email', 'email_verified_at', 'created_at', 'deleted_at'])
+            ->whereIn('role', $search?->getRoles() ?? [User::ROLE_USER])
             ->paginate(self::PER_PAGE);
     }
 
