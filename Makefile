@@ -39,7 +39,7 @@ install-passport:
 
 .PHONY: install-passport-keys
 install-passport-keys:
-	$(COMPOSE) run --rm -u $(CURRENT_UID) --entrypoint bash php -c "php artisan passport:keys"
+	$(COMPOSE) run --rm -u $(CURRENT_UID) --entrypoint bash php -c "php artisan passport:keys --force"
 
 up2:
 	cd ../l.com && make down

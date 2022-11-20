@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
             'remember_token' => Str::random(10),
-            'role' => 'admin',
+            'role' => User::ROLE_ADMIN,
         ]);
     }
 }
