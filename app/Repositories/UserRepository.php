@@ -15,7 +15,7 @@ class UserRepository
 {
     private const PER_PAGE = 50;
 
-    public function find(bool $withDeleted = FALSE, ?SearchUserDTO $search = NULL): LengthAwarePaginator
+    public function find(bool $withDeleted = false, ?SearchUserDTO $search = null): LengthAwarePaginator
     {
         $handle = $withDeleted ? User::withTrashed() : User::withoutTrashed();
 
@@ -24,11 +24,11 @@ class UserRepository
         }
 
         if ($search?->getName()) {
-            $handle->where('name', 'LIKE', '%'.$search->getName().'%');
+            $handle->where('name', 'LIKE', '%' . $search->getName() . '%');
         }
 
         if ($search?->getEmail()) {
-            $handle->where('email', 'LIKE', '%'.$search->getEmail().'%');
+            $handle->where('email', 'LIKE', '%' . $search->getEmail() . '%');
         }
 
         return $handle->select(['id', 'name', 'email', 'email_verified_at', 'created_at', 'deleted_at'])
@@ -62,5 +62,36 @@ class UserRepository
     public function delete(User $user): bool
     {
         return (bool)$user->delete();
+    }
+
+    public function update(User $user, array $data): bool
+    {
+        $user->name = $data['name'] ?? $user->name;
+        $user->role = $data['role'] ?? $user->role;
+
+        $changeEmail = filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL)
+            && mb_strtolower($data['email']) !== mb_strtolower($user->email);
+
+        if ($changeEmail) {
+            $user->email = $data['email'];
+            $user->email_verified_at = null;
+        }
+
+        $changePass = mb_strlen($data['password'] ?? '') > 0;
+        if ($changePass) {
+            $user->password = bcrypt($data['password']);
+        }
+
+        $saved = (bool)$user->save();
+
+        if ($saved && $changeEmail) {
+            // todo send email confirmation or set job send confirmation
+        }
+
+        if ($saved && $changePass) {
+            AuthController::removeOldTokens($user->id);
+        }
+
+        return $saved;
     }
 }

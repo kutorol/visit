@@ -50,6 +50,7 @@ Route::middleware(['auth:api'])->prefix('/user')->group(function () {
     Route::middleware('editor')->group(function (){
         Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
         Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
+        Route::put('', [ManageUserController::class, 'update'])->name('api.update_user');
     });
 
     Route::middleware('manager')->group(function (){

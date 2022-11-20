@@ -52,7 +52,7 @@ use Laravel\Passport\Passport;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;//, VerifiesEmails;
 
     public const ROLE_ADMIN = 'admin';
     public const ROLE_EDITOR = 'editor';
