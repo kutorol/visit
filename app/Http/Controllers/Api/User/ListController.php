@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\List;
+namespace App\Http\Controllers\Api\User;
 
 use App\DTO\SearchUserDTO;
 use App\Http\Controllers\Api\BaseController;
@@ -12,11 +12,11 @@ use Illuminate\Http\JsonResponse;
 
 class ListController extends BaseController
 {
-    private UserRepository $repository;
+    private UserRepository $userRepository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -37,7 +37,7 @@ class ListController extends BaseController
                 ->setRoles($validated['roles'] ?? NULL);
         }
 
-        $users = $this->repository->find((bool)($validated['withDeleted'] ?? FALSE), $dto);
+        $users = $this->userRepository->find((bool)($validated['withDeleted'] ?? FALSE), $dto);
 
         return $this->sendResponse('', [
             'total' => $users->total(),

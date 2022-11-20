@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
-use App\Http\Controllers\Api\Info\ManageUserController;
-use App\Http\Controllers\Api\List\ListController;
+use App\Http\Controllers\Api\User\ListController;
+use App\Http\Controllers\Api\User\ManageUserController;
 use Illuminate\Support\Facades\Route;
 
 /*

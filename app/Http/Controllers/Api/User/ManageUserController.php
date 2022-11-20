@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Info;
+namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BaseController;
@@ -14,11 +14,11 @@ use Illuminate\Http\JsonResponse;
 
 class ManageUserController extends BaseController
 {
-    private UserRepository $repository;
+    private UserRepository $userRepository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->repository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     public function create(RegisterRequest $request): JsonResponse
@@ -27,7 +27,7 @@ class ManageUserController extends BaseController
 
         try {
             return $this->sendResponse(__('user.created'), [
-                'userID' => $this->repository->create($data)['ID'],
+                'userID' => $this->userRepository->create($data)['ID'],
             ]);
         } catch (\Throwable $e) {
             \Log::error('Error manual register', array_merge(['error' => $e->getMessage()], $data));
@@ -39,7 +39,7 @@ class ManageUserController extends BaseController
     public function delete(DeleteUserRequest $request): JsonResponse
     {
         $id = (int)$request->get('id');
-        $user = $this->repository->findByID($id);
+        $user = $this->userRepository->findByID($id);
         if (!$user) {
             return $this->sendError(__('user.not_found'));
         }
@@ -50,7 +50,7 @@ class ManageUserController extends BaseController
         }
 
         try {
-            if (!$this->repository->delete($user)) {
+            if (!$this->userRepository->delete($user)) {
                 return $this->sendError(__('user.not_deleted'), [], self::BAD_REQUEST_CODE);
             }
 
