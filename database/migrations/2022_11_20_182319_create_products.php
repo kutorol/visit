@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->addColumn("string", "name");
-            $table->addColumn("string", "type")->default("subscription");
+            $table->addColumn("string", "type")->default(Product::TYPE_SUBSCRIPTION);
             $table->integer("days")->default(1);
             $table->timestampsTz();
         });

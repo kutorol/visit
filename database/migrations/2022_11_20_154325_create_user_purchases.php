@@ -16,11 +16,13 @@ return new class extends Migration
         Schema::create('user_purchases', function (Blueprint $table) {
             $table->id();
             $table->integer("user_id")->index();
-            $table->addColumn("string", "product");
+            $table->integer("product_id");
+
             $table->integer("days")->default(1);
             $table->timestampTz('created_at')->default(DB::raw('NOW()'));
 
-            $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade');
+            $table->foreign("user_id")->references('id')->on('users')->nullOnDelete();
+            $table->foreign("product_id")->references('id')->on('products')->nullOnDelete();
             $table->softDeletesTz();
         });
     }

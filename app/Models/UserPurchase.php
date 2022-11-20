@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|UserPurchase withTrashed()
  * @method static \Illuminate\Database\Query\Builder|UserPurchase withoutTrashed()
  * @mixin \Eloquent
+ * @property int $product_id
+ * @method static \Illuminate\Database\Eloquent\Builder|UserPurchase whereProductId($value)
  */
 class UserPurchase extends Model
 {
