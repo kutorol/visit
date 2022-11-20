@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\List\ListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,10 @@ Route::prefix('/password')->group(function () {
 });
 
 /* ======= Конец регистрация ========= */
+
+/* ========== Список юзеров ========== */
+Route::middleware(['auth:api', 'manager'])->prefix('/list')->group(function (){
+    Route::get("/users", [ListController::class, 'find'])->name("api.list_users");
+});
+
+/* ========== Конец списка юзеров ========== */
