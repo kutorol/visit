@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestampTz('created_at')->default(DB::raw('NOW()'));
 
             $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade');
+            $table->softDeletesTz();
         });
     }
 

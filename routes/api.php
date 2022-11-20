@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\Purchase\ManagePurchaseController;
 use App\Http\Controllers\Api\User\GateUserController;
 use App\Http\Controllers\Api\User\InfoUserController;
 use App\Http\Controllers\Api\User\ListController;
@@ -36,27 +37,33 @@ Route::prefix('/password')->group(function () {
     Route::post('reset/{token}', [ForgotController::class, 'reset'])->name('api.pass_reset');
 });
 
-/* ======= Конец регистрация ========= */
-
-/* ========== Список юзеров ========== */
-Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function () {
-    Route::get('', [ListController::class, 'find'])->name('api.list_users');
-    Route::get('/search', [ListController::class, 'search'])->name('api.search_list_users');
-});
-
-/* ========== Конец списка юзеров ========== */
-
-Route::middleware(['auth:api'])->prefix('/user')->group(function () {
-    Route::middleware('editor')->group(function (){
-        Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
-        Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
-        Route::put('', [ManageUserController::class, 'update'])->name('api.update_user');
+/* ========= Main utility ========= */
+Route::middleware(['auth:api'])->group(function (){
+    Route::middleware('manager')->prefix('/users')->group(function () {
+        Route::get('', [ListController::class, 'find'])->name('api.list_users');
+        Route::get('/search', [ListController::class, 'search'])->name('api.search_list_users');
     });
 
-    Route::middleware('manager')->group(function (){
-        // only user info
-        Route::get('/{id}', [InfoUserController::class, 'info'])->name('api.info_users');
-        // user info with actions
-        Route::get('/{id}/full', [GateUserController::class, 'info'])->name('api.full_info_users');
+    Route::prefix('/user')->group(function () {
+        Route::middleware('editor')->group(function (){
+            Route::post('', [ManageUserController::class, 'create'])->name('api.create_user');
+            Route::delete('', [ManageUserController::class, 'delete'])->name('api.delete_user');
+            Route::put('', [ManageUserController::class, 'update'])->name('api.update_user');
+        });
+
+        Route::middleware('manager')->group(function (){
+            // only user info
+            Route::get('/{id}', [InfoUserController::class, 'info'])->name('api.info_users');
+            // user info with actions
+            Route::get('/{id}/full', [GateUserController::class, 'info'])->name('api.full_info_users');
+        });
+    });
+
+    Route::prefix('/purchase')->group(function () {
+        Route::middleware('editor')->group(function (){
+            Route::delete('/{id}', [ManagePurchaseController::class, 'delete'])->name('api.delete_purchase');
+        });
     });
 });
+
+/* ========= End main utility ========= */
