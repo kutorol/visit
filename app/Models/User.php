@@ -6,6 +6,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -46,7 +47,7 @@ use Laravel\Passport\Passport;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     public const ROLE_ADMIN = "admin";
     public const ROLE_EDITOR = "editor";
@@ -92,5 +93,17 @@ class User extends Authenticatable
             self::ROLE_MANAGER,
             self::ROLE_USER,
         ];
+    }
+
+    public static function isAdmin(): bool {
+        return \Auth::user()?->role === self::ROLE_ADMIN;
+    }
+
+    public static function isEditor(): bool {
+        return in_array(\Auth::user()?->role, [self::ROLE_ADMIN, self::ROLE_EDITOR]);
+    }
+
+    public static function isManager(): bool {
+        return in_array(\Auth::user()?->role, [self::ROLE_ADMIN, self::ROLE_EDITOR, self::ROLE_MANAGER]);
     }
 }

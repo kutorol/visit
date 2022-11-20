@@ -45,4 +45,5 @@ Route::middleware(['auth:api', 'manager'])->prefix('/users')->group(function (){
 
 Route::middleware(['auth:api', 'editor'])->prefix('/user')->group(function (){
     Route::post("", [ManageUserController::class, 'create'])->name("api.create_user");
+    Route::delete("", [ManageUserController::class, 'delete'])->name("api.delete_user");
 });

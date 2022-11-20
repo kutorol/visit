@@ -36,4 +36,14 @@ class UserRepository
             BaseController::TOKEN_PARAM => $token
         ];
     }
+
+    public function findByID(int $id): ?User
+    {
+        return User::firstWhere("id", "=", $id);
+    }
+
+    public function delete(User $user): bool
+    {
+        return (bool)$user->delete();
+    }
 }

@@ -36,7 +36,7 @@ class IsAdmin
         }
 
         return response()->json(
-            BaseController::errorResponse(__("auth.bad_role"), [], BaseController::FORBIDDEN_CODE),
+            BaseController::errorResponse(__("general.bad_role"), [], BaseController::FORBIDDEN_CODE),
             BaseController::FORBIDDEN_CODE
         );
     }
