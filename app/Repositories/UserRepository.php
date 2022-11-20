@@ -56,7 +56,7 @@ class UserRepository
 
     public function findByID(int $id): ?User
     {
-        return User::firstWhere('id', '=', $id);
+        return User::withTrashed()->firstWhere('id', '=', $id);
     }
 
     public function delete(User $user): bool
