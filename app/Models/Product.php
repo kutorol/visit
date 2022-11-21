@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product selectFields()
  * @mixin \Eloquent
  */
 class Product extends Model
@@ -38,12 +40,18 @@ class Product extends Model
         'days',
     ];
 
-    public static function getTypes() :array {
+    public static function getTypes(): array
+    {
         return [self::TYPE_LOCKER, self::TYPE_SUBSCRIPTION];
     }
 
     public static function checkType(string $type): bool
     {
-        return in_array(mb_strtolower($type), self::getTypes() , true);
+        return in_array(mb_strtolower($type), self::getTypes(), true);
+    }
+
+    public function scopeSelectFields(Builder $query): Builder
+    {
+        return $query->select(['id', 'name', 'type', 'days', 'created_at', 'updated_at']);
     }
 }

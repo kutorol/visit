@@ -45,7 +45,7 @@ $rules = [
     'linebreak_after_opening_tag' => true,
     'line_ending' => true,
     'lowercase_cast' => true,
-    'constant_case' => ['case' => 'upper'],
+    'constant_case' => ['case' => 'lower'],
     'lowercase_keywords' => true,
     'lowercase_static_reference' => true, // added from Symfony
     'magic_method_casing' => true, // added from Symfony

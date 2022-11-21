@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\Purchase\ListProductController;
+use App\Http\Controllers\Api\Purchase\ManageProductController;
 use App\Http\Controllers\Api\Purchase\ManagePurchaseController;
 use App\Http\Controllers\Api\User\GateUserController;
 use App\Http\Controllers\Api\User\InfoUserController;
@@ -62,6 +64,18 @@ Route::middleware(['auth:api'])->group(function (){
     Route::prefix('/purchase')->group(function () {
         Route::middleware('editor')->group(function (){
             Route::delete('/{id}', [ManagePurchaseController::class, 'delete'])->name('api.delete_purchase');
+        });
+    });
+
+    Route::prefix('/product')->group(function () {
+        Route::middleware('editor')->group(function (){
+            Route::delete('/{id}', [ManageProductController::class, 'delete'])->name('api.delete_product');
+            Route::post('', [ManageProductController::class, 'create'])->name('api.create_product');
+            Route::put('', [ManageProductController::class, 'update'])->name('api.update_product');
+        });
+
+        Route::middleware('manager')->group(function (){
+            Route::get('', [ListProductController::class, 'index'])->name('api.view_product');
         });
     });
 });

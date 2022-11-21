@@ -4,17 +4,18 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 class ProductRepository
 {
     public function find(): Collection
     {
-        return Product::select(['id', 'name', 'type', 'days', 'created_at', 'updated_at'])->get();
+        return Product::selectFields()->get();
     }
 
     public function findByID(int $id): ?Product
     {
-        return Product::where('id', $id)->first();
+        return Product::selectFields()->where('id', $id)->first();
     }
 
     public function delete(Product $product): bool
@@ -36,6 +37,10 @@ class ProductRepository
 
     public function create(array $data): Product
     {
+        if (Product::checkType($data['type'] ?? '')) {
+            throw new InvalidArgumentException(sprintf("such type doesn't exists (%s)", $data['type'] ?? ''));
+        }
+
         return Product::create([
             'name' => $data['name'],
             'days' => (int)$data['days'],
