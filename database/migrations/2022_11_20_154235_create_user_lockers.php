@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('user_locker', function (Blueprint $table) {
+        Schema::create('user_lockers', function (Blueprint $table) {
             $table->integer("locker_id")->unsigned();
             $table->integer("user_id")->unsigned();
             $table->timestampTz("expired_at");
@@ -21,6 +21,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('user_locker');
+        Schema::dropIfExists('user_lockers');
     }
 };

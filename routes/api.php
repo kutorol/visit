@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotController;
+use App\Http\Controllers\Api\Locker\ListLockerController;
+use App\Http\Controllers\Api\Locker\ManageLockerController;
 use App\Http\Controllers\Api\Purchase\ListProductController;
 use App\Http\Controllers\Api\Purchase\ManageProductController;
 use App\Http\Controllers\Api\Purchase\ManagePurchaseController;
@@ -76,6 +78,18 @@ Route::middleware(['auth:api'])->group(function (){
 
         Route::middleware('manager')->group(function (){
             Route::get('', [ListProductController::class, 'index'])->name('api.view_product');
+        });
+    });
+
+    Route::prefix('/locker')->group(function () {
+        Route::middleware('editor')->group(function (){
+            Route::delete('/{id}', [ManageLockerController::class, 'delete'])->name('api.delete_locker');
+            Route::post('', [ManageLockerController::class, 'create'])->name('api.create_locker');
+            Route::put('', [ManageLockerController::class, 'update'])->name('api.update_locker');
+        });
+
+        Route::middleware('manager')->group(function (){
+            Route::get('', [ListLockerController::class, 'index'])->name('api.view_lockers');
         });
     });
 });
