@@ -12,7 +12,8 @@ class CreateProductRequest extends FormRequest
         return [
             'name' => 'required|string|min:1|max:255',
             'type' => 'required|in:' . join(",", Product::getTypes()),
-            'days' => 'required|integer|min:1',
+            'days' => 'required|integer|gte:1',
+            'price' => 'required|numeric|gt:1',
         ];
     }
 }

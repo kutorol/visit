@@ -27,6 +27,7 @@ class ProductRepository
     {
         $product->name = $data['name'] ?? $product->name;
         $product->days = (int)($data['days'] ?? $product->days);
+        $product->price = (int)($data['price'] ?? $product->price);
 
         if (Product::checkType($data['type'] ?? '')) {
             $product->type = $data['type'];
@@ -45,6 +46,7 @@ class ProductRepository
             'name' => $data['name'],
             'days' => (int)$data['days'],
             'type' => $data['type'],
+            'price' => (int)($data['price'] * 100),
         ]);
     }
 }

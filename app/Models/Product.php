@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $type
  * @property int $days
+ * @property int $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
@@ -38,6 +39,7 @@ class Product extends Model
         'name',
         'type',
         'days',
+        'price',
     ];
 
     public static function getTypes(): array
@@ -52,6 +54,15 @@ class Product extends Model
 
     public function scopeSelectFields(Builder $query): Builder
     {
-        return $query->select(['id', 'name', 'type', 'days', 'created_at', 'updated_at']);
+        return $query->select(['id', 'name', 'type', 'days', 'price', 'created_at', 'updated_at']);
+    }
+
+    public function getPrice(): float
+    {
+        if (!$this->price) {
+            return 0;
+        }
+
+        return round($this->price / 100);
     }
 }

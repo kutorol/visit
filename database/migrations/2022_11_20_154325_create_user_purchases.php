@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer("user_id")->index();
             $table->integer("product_id");
 
-            $table->integer("days")->default(1);
             $table->timestampTz('created_at')->default(DB::raw('NOW()'));
 
             $table->foreign("user_id")->references('id')->on('users')->nullOnDelete();

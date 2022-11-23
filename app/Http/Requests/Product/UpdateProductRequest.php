@@ -10,10 +10,11 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer|min:1',
+            'id' => 'required|integer|gte:1',
             'name' => 'nullable|string|min:1|max:255',
             'type' => 'nullable|in:' . join(",", Product::getTypes()),
-            'days' => 'nullable|integer|min:1',
+            'days' => 'nullable|integer|gte:1',
+            'price' => 'nullable|numeric|gt:1',
         ];
     }
 }

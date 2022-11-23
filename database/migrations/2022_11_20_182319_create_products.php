@@ -19,6 +19,7 @@ return new class extends Migration
             $table->addColumn("string", "name");
             $table->addColumn("string", "type")->default(Product::TYPE_SUBSCRIPTION);
             $table->integer("days")->default(1);
+            $table->integer("price");
             $table->timestampsTz();
         });
     }

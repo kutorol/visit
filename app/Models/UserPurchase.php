@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $user_id
- * @property string $product
- * @property int $days
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string $name
+ * @property string $type
+ * @property int $days
+ * @property \Illuminate\Support\Carbon|null $product_created_at
+ * @property \Illuminate\Support\Carbon|null $product_updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|UserPurchase newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserPurchase newQuery()
  * @method static \Illuminate\Database\Query\Builder|UserPurchase onlyTrashed()
@@ -41,7 +44,6 @@ class UserPurchase extends Model
 
     protected $fillable = [
         'user_id',
-        'product',
-        'days',
+        'product_id',
     ];
 }
