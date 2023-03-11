@@ -50,6 +50,9 @@ RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
 
+RUN pecl update-channels && pecl install grpc
+RUN docker-php-ext-enable grpc
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

@@ -51,8 +51,8 @@ up2:
 	@echo "http://localhost:8080"
 
 down2:
-	#make down
-	#docker stop jira && docker rm jira
+	make down
+	docker stop jira && docker rm jira
 	cd ../traefik.com && make up-mac
 	cd ../l.com && make up
 	cd ../goods && make first

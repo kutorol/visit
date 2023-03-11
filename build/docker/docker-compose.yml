@@ -46,6 +46,8 @@ services:
       dockerfile: Dockerfile
     command: php-fpm
     container_name: php-${COMPOSE_PROJECT_NAME}
+    expose:
+      - 12032
     depends_on:
       - postgresql
       - redis
@@ -96,7 +98,7 @@ services:
     container_name: nginx-${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "85:80"
       - "443:443"
     environment:
       - APP_URL=${APP_URL}

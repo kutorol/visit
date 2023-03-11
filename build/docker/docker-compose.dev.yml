@@ -11,7 +11,7 @@ services:
 
   postgresql:
     ports:
-      - "15432:5432"
+      - "18432:5432"
 
   php:
     environment:

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\GrpcClient\CategoryFixedItemServiceClientGrpcHelper;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::fallback(function () {
-    return view('app');
+    app(CategoryFixedItemServiceClientGrpcHelper::class)->do();
+echo "<pre>";
+print_r(['fasd']);
+echo "</pre>";
+exit;
+    //    return view('app');
 });
